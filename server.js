@@ -28,7 +28,7 @@ function loadEnv() {
 loadEnv();
 
 const PORT = parseInt(process.env.PORT, 10) || 3000;
-const PUBLIC_DIR = path.join(__dirname, 'dist');
+const PUBLIC_DIR = __dirname;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
