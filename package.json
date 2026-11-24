@@ -1,0 +1,12 @@
+{
+  "name": "disease-hunter",
+  "version": "1.0.0",
+  "description": "Disease Hunter - Health Detective Educational Web Application with Typhoon AI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["disease-hunter", "typhoon-ai", "education", "health"],
+  "author": "Disease Hunter Team",
+  "license": "MIT"
+}

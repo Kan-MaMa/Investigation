@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disease Hunter | นักสืบป้องกันโรค</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo" onclick="navigateTo('home')">
+      <span class="logo-icon">🔎</span> Disease Hunter
+    </div>
+    <nav id="mainNav">
+      <a href="#home" data-page="home" class="active" onclick="navigateTo('home'); return false;">หน้าแรก</a>
+      <a href="#library" data-page="library" onclick="navigateTo('library'); return false;">คลังโรค</a>
+      <a href="#game" data-page="game" onclick="navigateTo('game'); return false;">ห้องสืบสวน</a>
+      <a href="#quiz" data-page="quiz" onclick="navigateTo('quiz'); return false;">แบบทดสอบ</a>
+      <a href="#chat" data-page="chat" onclick="navigateTo('chat'); return false;">AI Chat 🤖</a>
+      <a href="#score" data-page="score" onclick="navigateTo('score'); return false;">คะแนน & สรุปผล</a>
+      <a href="#about" data-page="about" onclick="navigateTo('about'); return false;">เกี่ยวกับโครงงาน</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 1. HOME -->
+    <section id="page-home" class="page active">
+      <div class="hero">
+        <div class="hero-content">
+          <p class="tag">HEALTH INVESTIGATION SYSTEM • ม.ปลาย</p>
+          <h1>Become a<br>Health Detective!</h1>
+          <p>
+            สืบสวนหลักฐาน วิเคราะห์สาเหตุของโรค และวางแผนป้องกันอย่างเป็นระบบ<br>
+            พร้อมคลังความรู้ 6 โรค แบบทดสอบสุขภาพ และผู้ช่วย AI ด็อกเตอร์ฮันเตอร์
+          </p>
+          <div class="hero-actions">
+            <button onclick="navigateTo('game')">🔍 เริ่มภารกิจสืบสวน</button>
+            <button class="secondary" onclick="navigateTo('library')">📚 สำรวจคลังโรค</button>
+          </div>
+        </div>
+        <div class="hero-icon">🕵️‍♂️</div>
+      </div>
+
+      <h2>ภารกิจหลักของนักสืบสุขภาพ</h2>
+      <div class="grid">
+        <div class="card clickable" onclick="navigateTo('library')">
+          <div class="big-icon">🦠</div>
+          <h3>คลังความรู้ 6 โรค</h3>
+          <p>ศึกษาสาเหตุ การติดต่อ/ปัจจัยเสี่ยง อาการ วิธีป้องกัน และข้อควรรู้แบบเจาะลึก</p>
+        </div>
+        <div class="card clickable" onclick="navigateTo('game')">
+          <div class="big-icon">📂</div>
+          <h3>แฟ้มคดีสืบสวน 3 ขั้นตอน</h3>
+          <p>วิเคราะห์หลักฐานเพื่อหาโรคต้องสงสัย สาเหตุ และแนวทางป้องกันในสถานการณ์จริง</p>
+        </div>
+        <div class="card clickable" onclick="navigateTo('quiz')">
+          <div class="big-icon">📝</div>
+          <h3>แบบทดสอบสุขภาพ</h3>
+          <p>ทบทวนความรู้พร้อมเฉลยเหตุผลและบันทึกสถิติลงเครื่องอย่างแม่นยำ</p>
+        </div>
+        <div class="card clickable" onclick="navigateTo('chat')">
+          <div class="big-icon">🤖</div>
+          <h3>AI Assistant: ด็อกเตอร์ฮันเตอร์</h3>
+          <p>ซักถามข้อสงสัยด้านสุขภาพและเบาะแสอาการแบบเรียลไทม์ด้วย Typhoon AI</p>
+        </div>
+      </div>
+
+      <div class="notice">
+        <div>
+          🏆 คะแนนสะสมของคุณ: <strong id="homeScore">0</strong> คะแนน |
+          ยศปัจจุบัน: <strong id="homeRank">Rookie Detective</strong>
+        </div>
+        <button class="small-btn" onclick="navigateTo('score')">ดูสรุปผล</button>
+      </div>
+    </section>
+
+    <!-- 2. DISEASE LIBRARY -->
+    <section id="page-library" class="page">
+      <div class="page-header">
+        <div>
+          <h1>📚 Disease Library</h1>
+          <p>คลังความรู้โรคที่พบบ่อยในชีวิตประจำวัน 6 โรค คลิกที่การ์ดเพื่อดูรายละเอียดครบทั้ง 6 หัวข้อ</p>
+        </div>
+        <div class="filter-group">
+          <button class="filter-btn active" onclick="filterDiseases('all', this)">ทั้งหมด (6)</button>
+          <button class="filter-btn" onclick="filterDiseases('infectious', this)">โรคติดต่อ</button>
+          <button class="filter-btn" onclick="filterDiseases('non-infectious', this)">โรคไม่ติดต่อ / สิ่งแวดล้อม</button>
+        </div>
+      </div>
+
+      <div id="diseaseGrid" class="grid"></div>
+    </section>
+
+    <!-- 3. INVESTIGATION GAME (MULTI-STEP) -->
+    <section id="page-game" class="page">
+      <div class="page-header">
+        <div>
+          <h1>🔎 Investigation Room</h1>
+          <p>ตรวจสอบหลักฐานหลายมิติ แล้ววิเคราะห์ <strong>(1) โรคต้องสงสัย</strong> → <strong>(2) สาเหตุ/ปัจจัยเสี่ยง</strong> → <strong>(3) วิธีป้องกัน/จัดการ</strong></p>
+        </div>
+        <div class="case-selector" id="caseSelector"></div>
+      </div>
+
+      <div class="investigation-layout">
+        <!-- คอลัมน์ซ้าย: แฟ้มหลักฐาน -->
+        <aside class="dossier-panel">
+          <div class="case-badge-row">
+            <span class="tag" id="caseCode">CASE 001</span>
+            <span class="difficulty-badge" id="caseDifficulty">ระดับเริ่มต้น</span>
+          </div>
+          <h2 id="caseTitle">กำลังโหลดแฟ้มคดี...</h2>
+          <p class="case-summary" id="caseSummary"></p>
+
+          <div class="evidence-list" id="evidenceList"></div>
+        </aside>
+
+        <!-- คอลัมน์ขวา: กระดานวิเคราะห์ 3 ขั้นตอน -->
+        <div class="analysis-panel">
+          <div class="step-tracker" id="stepTracker">
+            <div class="step-pill active" data-step="0">1. วิเคราะห์โรค</div>
+            <div class="step-pill" data-step="1">2. สาเหตุ / ปัจจัย</div>
+            <div class="step-pill" data-step="2">3. แนวทางป้องกัน</div>
+          </div>
+
+          <div class="case-box" id="investigationStage"></div>
+
+          <div class="case-actions">
+            <button class="secondary" onclick="resetCurrentCase()">🔄 เริ่มสืบสวนคดีนี้ใหม่</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. HEALTH QUIZ -->
+    <section id="page-quiz" class="page">
+      <div class="page-header">
+        <div>
+          <h1>📝 Health Quiz</h1>
+          <p>แบบทดสอบความรู้เกี่ยวกับโรคและการป้องกันโรค (ตอบถูก 1 ข้อ = +2 คะแนน)</p>
+        </div>
+      </div>
+
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-bar" id="quizProgressBar"></div>
+      </div>
+
+      <div class="case-box">
+        <div id="quizArea"></div>
+        <div id="quizResult"></div>
+        <div id="quizControls">
+          <button onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. AI ASSISTANT (TYPHOON LLM) -->
+    <section id="page-chat" class="page">
+      <div class="page-header">
+        <div>
+          <span class="tag">AI POWERED • TYPHOON LLM</span>
+          <h1>🤖 Health AI Assistant: ด็อกเตอร์ฮันเตอร์ (Dr. Hunter)</h1>
+          <p>ผู้ช่วย AI อัจฉริยะประจำศูนย์สืบสวนโรค พร้อมตอบคำถามสุขภาพและร่วมวิเคราะห์เบาะแสอาการแบบเรียลไทม์</p>
+        </div>
+      </div>
+
+      <div class="quick-prompts-wrapper">
+        <div class="quick-prompts-label">💡 คำถามด่วนแนะนำ (คลิกเพื่อถามด็อกเตอร์ฮันเตอร์ทันที):</div>
+        <div class="quick-prompts" id="quickPrompts"></div>
+      </div>
+
+      <div class="chatbox">
+        <div class="chatbox-header">
+          <div class="chatbox-bot-info">
+            <div class="bot-avatar-badge">🕵️‍♂️🩺</div>
+            <div>
+              <div class="bot-name">ด็อกเตอร์ฮันเตอร์ (Dr. Hunter)</div>
+              <div class="bot-status"><span class="status-dot"></span> พร้อมสืบสวนและให้คำปรึกษาตลอด 24 ชม.</div>
+            </div>
+          </div>
+          <button class="clear-chat-btn" onclick="resetChat()" title="เริ่มบทสนทนาใหม่">🗑️ ล้างการสนทนา</button>
+        </div>
+
+        <div id="chatMessages" class="messages">
+          <div class="bot-message">
+            <div class="message-sender">🕵️‍♂️ ด็อกเตอร์ฮันเตอร์</div>
+            <div class="message-content">
+              สวัสดีครับคุณนักสืบ! ผมคือ **ด็อกเตอร์ฮันเตอร์ (Dr. Hunter)** 🩺 ประจำศูนย์สืบสวนโรค Disease Hunter ยินดีต้อนรับสู่ศูนย์ประสานงานด้านสุขภาพครับ!
+              
+ผมพร้อมช่วยคุณวิเคราะห์เบาะแสอาการ ตอบข้อสงสัยเกี่ยวกับ 6 โรคสำคัญ (ไข้เลือดออก, ไข้หวัดใหญ่, เบาหวาน, ความดันโลหิตสูง, อาหารเป็นพิษ, ภูมิแพ้) ตลอดจนการป้องกันและสุขอนามัยเบื้องต้น
+
+วันนี้มีอาการผิดปกติ เบาะแสผู้ป่วย หรือคำถามสุขภาพเรื่องใดให้ผมช่วยสืบไหมครับ? พิมพ์ถามด้านล่างได้เลย! ✨
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input-wrapper">
+          <div class="chat-input">
+            <input id="chatInput" type="text" placeholder="พิมพ์คำถามหรือบอกเล่าอาการ เช่น ไข้สูง ปวดกระบอกตา เสี่ยงเป็นอะไร..." autocomplete="off">
+            <button id="sendBtn" onclick="sendMessage()">
+              <span>ส่งคำถาม</span> 🚀
+            </button>
+          </div>
+          <div class="chat-footer-note">
+            <span class="badge-notice">ℹ️ ระบบ AI:</span> ขับเคลื่อนด้วย Typhoon LLM ภาษาไทย | *คำแนะนำนี้จัดทำขึ้นเพื่อการศึกษาและการดูแลสุขภาพเบื้องต้น ไม่สามารถใช้ทดแทนการตรวจวินิจฉัยทางการแพทย์
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. MY SCORE & SUMMARY -->
+    <section id="page-score" class="page">
+      <div class="page-header">
+        <div>
+          <h1>🏆 My Score & Summary</h1>
+          <p>แดชบอร์ดสรุปความคืบหน้า คะแนนสะสม และเหรียญตราเกียรติยศนักสืบสุขภาพ</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card stat-card">
+          <div class="stat-icon">⭐</div>
+          <h3>คะแนนสะสมรวม</h3>
+          <div class="score-number" id="totalScore">0</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon">📝</div>
+          <h3>จำนวนครั้งที่ทำแบบทดสอบ</h3>
+          <div class="score-number" id="quizCount">0</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon">🏅</div>
+          <h3>คะแนนแบบทดสอบสูงสุด</h3>
+          <div class="score-number" id="bestScore">0</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon">🎯</div>
+          <h3>ความแม่นยำแบบทดสอบ</h3>
+          <div class="score-number" id="accuracyRate">0%</div>
+        </div>
+      </div>
+
+      <div class="case-box">
+        <h2>🎖️ เหรียญตรานักสืบ (Detective Badges)</h2>
+        <div class="badges-grid" id="badgesGrid"></div>
+      </div>
+
+      <div class="case-box">
+        <h2>📊 สรุปผลการเรียนรู้และคำแนะนำ</h2>
+        <p id="summary">เริ่มทำภารกิจเพื่อดูผลการเรียนรู้</p>
+        <p id="reviewAdvice" class="advice-text"></p>
+      </div>
+
+      <div class="case-box">
+        <h2>📜 ประวัติการทำแบบทดสอบ</h2>
+        <div id="historyList" class="history-list"></div>
+        <button class="secondary" onclick="openResetModal()">🗑️ ล้างคะแนนและประวัติ</button>
+      </div>
+    </section>
+
+    <!-- 7. ABOUT PROJECT -->
+    <section id="page-about" class="page">
+      <div class="page-header">
+        <div>
+          <span class="tag">SCIENCE & HEALTH PROJECT PROFILE</span>
+          <h1>🔬 เกี่ยวกับโครงงาน (About Project)</h1>
+          <p>การพัฒนาเว็บไซต์นักสืบป้องกันโรค Disease Hunter เพื่อส่งเสริมความรู้และความตระหนักด้านการดูแลสุขภาพผ่านเกมและปัญญาประดิษฐ์</p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div class="card about-card">
+          <div class="about-card-header">
+            <span class="about-card-icon">📌</span>
+            <h2>1. ชื่อโครงงานและนวัตกรรม</h2>
+          </div>
+          <p><strong>ชื่อภาษาไทย:</strong> การพัฒนาเว็บไซต์นักสืบป้องกันโรค Disease Hunter เพื่อส่งเสริมความรู้และความตระหนักด้านการดูแลสุขภาพผ่านเกมและปัญญาประดิษฐ์</p>
+          <div class="divider"></div>
+          <p><strong>ชื่อภาษาอังกฤษ:</strong> Development of Disease Hunter: An Interactive Disease Prevention Website Using Games and Artificial Intelligence</p>
+          <div class="divider"></div>
+          <p style="color: var(--mint); font-weight: 600;"><strong>ชื่อเรียกนวัตกรรม:</strong> Disease Hunter – Become a Health Detective!</p>
+        </div>
+
+        <div class="card about-card">
+          <div class="about-card-header">
+            <span class="about-card-icon">💡</span>
+            <h3>2. ที่มาและความสำคัญ</h3>
+          </div>
+          <p>โรคที่พบได้บ่อยในชีวิตประจำวัน เช่น ไข้เลือดออก ไข้หวัดใหญ่ เบาหวาน ความดันโลหิตสูง อาหารเป็นพิษ และภูมิแพ้ สามารถป้องกันหรือลดความเสี่ยงได้หากมีความรู้และปรับเปลี่ยนพฤติกรรมอย่างเหมาะสม โครงงานนี้จึงนำรูปแบบเกมสืบสวน แฟ้มคดีสถานการณ์ แบบทดสอบ และผู้ช่วย AI อัจฉริยะ (Typhoon AI) มาช่วยให้การเรียนรู้วิทยาศาสตร์สุขภาพน่าสนใจและฝึกการคิดวิเคราะห์อย่างเป็นระบบ</p>
+        </div>
+
+        <div class="card about-card">
+          <div class="about-card-header">
+            <span class="about-card-icon">🎯</span>
+            <h3>3. วัตถุประสงค์และขอบเขตโครงงาน</h3>
+          </div>
+          <ul class="info-list">
+            <li>พัฒนาเว็บไซต์ให้ความรู้เกี่ยวกับโรคที่พบได้ในชีวิตประจำวัน 6 ชนิด สำหรับนักเรียนระดับมัธยมศึกษาตอนปลาย</li>
+            <li>สร้างเกมสืบสวนสถานการณ์ 3 ขั้นตอนและแบบทดสอบความรู้ด้านการป้องกันโรค</li>
+            <li>พัฒนาระบบผู้ช่วยตอบคำถามสุขภาพแบบสนทนาธรรมชาติด้วยโมเดล Typhoon LLM</li>
+            <li>พัฒนาระบบบันทึกคะแนนและสถิติการเรียนรู้ด้วย LocalStorage</li>
+            <li>ศึกษาความพึงพอใจและเปรียบเทียบความรู้ของผู้ใช้งานก่อนและหลังใช้เว็บไซต์</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-box team-box">
+        <h2>👥 ข้อมูลคณะผู้จัดทำและสถานศึกษา</h2>
+        <div class="team-grid">
+          <div class="team-card">
+            <h3>นักเรียนผู้จัดทำโครงงาน</h3>
+            <ul class="info-list">
+              <li><strong>นางสาวชนาธิป ดอกไม้</strong> ชั้นมัธยมศึกษาปีที่ 4/MS1 เลขที่ 15</li>
+              <li><strong>นางสาวอมลมณี โชติพิริยธรณ์</strong> ชั้นมัธยมศึกษาปีที่ 4/MS1 เลขที่ 19</li>
+              <li><strong>นางสาวพัฒน์ชญา ปริมาณ</strong> ชั้นมัธยมศึกษาปีที่ 4/MS1 เลขที่ 24</li>
+            </ul>
+          </div>
+          <div class="team-card">
+            <h3>อาจารย์ที่ปรึกษาโครงงาน</h3>
+            <ul class="info-list">
+              <li><strong>คุณครูปราโมทย์ วงศ์คำ</strong></li>
+            </ul>
+            <h3 style="margin-top: 14px;">โรงเรียน / สถานศึกษา</h3>
+            <ul class="info-list">
+              <li><strong>โรงเรียนสวรรค์อนันต์วิทยา</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: รายละเอียดโรค 6 หัวข้อ -->
+  <div id="diseaseModal" class="modal-backdrop" onclick="closeDiseaseModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span id="modalIcon" class="modal-icon">🦠</span>
+          <div>
+            <span id="modalCategory" class="tag">CATEGORY</span>
+            <h2 id="modalTitle">ชื่อโรค</h2>
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeDiseaseModal()">✕</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: ยืนยันการล้างคะแนน -->
+  <div id="resetConfirmModal" class="modal-backdrop" onclick="closeResetModal()">
+    <div class="modal-card small-modal" onclick="event.stopPropagation()">
+      <h3>ยืนยันการล้างคะแนน?</h3>
+      <p>คะแนนสะสม ประวัติการทำแบบทดสอบ และสถานะภารกิจที่บันทึกไว้ในเบราว์เซอร์นี้จะถูกลบทั้งหมด</p>
+      <div class="modal-actions">
+        <button class="danger-btn" onclick="confirmResetScores()">ยืนยันล้างข้อมูล</button>
+        <button class="secondary" onclick="closeResetModal()">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>🔎 Disease Hunter – Become a Health Detective! | โครงงานวิทยาศาสตร์สุขภาพระดับมัธยมศึกษาตอนปลาย โรงเรียนสวรรค์อนันต์วิทยา</p>
+    <p>เนื้อหาบนเว็บไซต์จัดทำขึ้นเพื่อการศึกษาเท่านั้น | AI Assistant ขับเคลื่อนด้วย Typhoon LLM</p>
+  </footer>
+
+  <script src="env.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
